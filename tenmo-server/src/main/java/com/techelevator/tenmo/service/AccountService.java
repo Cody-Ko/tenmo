@@ -2,6 +2,7 @@ package com.techelevator.tenmo.service;
 
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.JdbcUserDao;
+import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.security.SecurityUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -13,17 +14,16 @@ import java.util.Optional;
 public class AccountService {
 
     AccountDao accountDao;
-    JdbcTemplate jdbcTemplate;
+    UserDao userDao;
 
-    public AccountService(AccountDao accountDao, JdbcTemplate jdbcTemplate){
+    public AccountService(AccountDao accountDao, UserDao userDao){
         this.accountDao = accountDao;
-        this.jdbcTemplate = jdbcTemplate;
+        this.userDao = userDao;
     }
 
     public double viewBalance(){
-        JdbcUserDao jdbcUserDao = new JdbcUserDao(jdbcTemplate);
         String currentUser = SecurityUtils.getCurrentUsername().get();
-        int currentUserId = jdbcUserDao.findIdByUsername(currentUser);
+        int currentUserId = userDao.findIdByUsername(currentUser);
         return accountDao.viewBalance(currentUserId);
     }
 }

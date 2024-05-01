@@ -1,17 +1,13 @@
 package com.techelevator.tenmo.service;
 
 import com.techelevator.tenmo.dao.AccountDao;
-import com.techelevator.tenmo.dao.JdbcUserDao;
 import com.techelevator.tenmo.dao.UserDao;
-import com.techelevator.tenmo.exception.DaoExceptions;
+import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.security.SecurityUtils;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -24,13 +20,13 @@ public class AccountService {
         this.userDao = userDao;
     }
 
-    public double viewBalance() throws DaoExceptions {
+    public double viewBalance() throws DaoException {
         String currentUser = SecurityUtils.getCurrentUsername().get();
         try{
             int currentUserId = userDao.findIdByUsername(currentUser);
             return accountDao.viewBalance(currentUserId);
         } catch (Exception e){
-            throw new DaoExceptions("Error could not display current balance", e);
+            throw new DaoException("Error could not display current balance", e);
         }
 
     }

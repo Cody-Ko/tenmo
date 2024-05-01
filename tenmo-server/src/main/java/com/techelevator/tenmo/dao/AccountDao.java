@@ -1,10 +1,8 @@
 package com.techelevator.tenmo.dao;
 
-import com.techelevator.tenmo.exception.DaoExceptions;
-
-import java.security.Principal;
+import com.techelevator.tenmo.exception.DaoException;
 
 public interface AccountDao {
 
-    public double viewBalance(int id) throws DaoExceptions;
+    public double viewBalance(int id) throws DaoException;
 }

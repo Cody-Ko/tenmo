@@ -6,7 +6,7 @@ public class TransferDto {
 
     private int receiverId;
 
-    private int amount;
+    private double amount;
 
     public int getSenderId() {
         return senderId;
@@ -24,7 +24,7 @@ public class TransferDto {
         this.receiverId = receiverId;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 

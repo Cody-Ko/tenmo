@@ -1,6 +1,7 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
@@ -100,6 +101,18 @@ public class App {
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
+        List <Transfer> transferHistory = accountService.transferHistory(currentUser);
+        String type = "";
+        for (int i = 0; i < transferHistory.size(); i++){
+            if (transferHistory.get(i).getTransferTypeId() == 1){
+                type = "From";
+            } else {
+                type = "to";
+            }
+            // Use the account id to route back to the database and pull the name for that account.
+
+            System.out.println(transferHistory.get(i).getTransferId() + " " + type + " " + transferHistory.get(i).getAccountFrom() + " $" + transferHistory.get(i).getAmount());
+        }
 		
 	}
 

@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferDto;
 import com.techelevator.tenmo.model.User;
 import org.springframework.core.ParameterizedTypeReference;
@@ -60,6 +61,20 @@ public class AccountService {
 
         System.out.println("Transfer successful! Your current balance is: $" + viewBalance(currentUser));
 
+    }
+
+    public List <Transfer> transferHistory(AuthenticatedUser currentUser) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(currentUser.getToken());
+
+        HttpEntity<Transfer> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<Transfer[]> response = restTemplate.exchange(URL + "/seetransfers", HttpMethod.GET, entity, Transfer[].class);
+
+        Transfer[] transactionHistory = response.getBody();
+
+        return Arrays.asList(transactionHistory);
     }
 
 

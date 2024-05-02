@@ -26,7 +26,7 @@ public class AccountService {
 
 
         ResponseEntity<Double> response = restTemplate.exchange(
-                URL, HttpMethod.GET, entity, Double.class);
+                URL + "/balance", HttpMethod.GET, entity, Double.class);
         double balance = response.getBody();
         return balance;
     }
@@ -57,6 +57,8 @@ public class AccountService {
 
         restTemplate.exchange(
                 URL + "/transfer", HttpMethod.POST, entity, Void.class);
+
+        System.out.println("Transfer successful! Your current balance is: $" + viewBalance(currentUser));
 
     }
 

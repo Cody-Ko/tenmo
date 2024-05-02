@@ -5,6 +5,7 @@ import com.techelevator.tenmo.model.TransferDto;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.service.AccountService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,8 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@PreAuthorize("hasRole('USER')")
+
 public class AccountController {
     AccountService accountService;
 
@@ -22,10 +25,10 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping
-    public double viewBalance() {
+    @GetMapping (path = "/balance")
+    public double viewBalance(Principal user) {
         try {
-            return accountService.viewBalance();
+            return accountService.viewBalance(user);
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot display current balance");
         }

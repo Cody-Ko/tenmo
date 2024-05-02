@@ -6,9 +6,11 @@ import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.security.SecurityUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -22,9 +24,8 @@ public class AccountService {
         this.userDao = userDao;
     }
 
-    public double viewBalance() throws DaoException {
-        String currentUser = SecurityUtils.getCurrentUsername().get();
-            int currentUserId = userDao.findIdByUsername(currentUser);
+    public double viewBalance(Principal user) throws DaoException {
+            int currentUserId = userDao.findIdByUsername(user.getName());
             return accountDao.viewBalance(currentUserId);
     }
 

@@ -22,13 +22,8 @@ public class AccountService {
 
     public double viewBalance() throws DaoException {
         String currentUser = SecurityUtils.getCurrentUsername().get();
-        try{
             int currentUserId = userDao.findIdByUsername(currentUser);
             return accountDao.viewBalance(currentUserId);
-        } catch (Exception e){
-            throw new DaoException("Error could not display current balance", e);
-        }
-
     }
 
     public List<User> userList (){

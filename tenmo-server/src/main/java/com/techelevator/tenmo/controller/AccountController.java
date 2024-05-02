@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.controller;
 
+import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class AccountController {
     public double viewBalance() {
         try {
             return accountService.viewBalance();
-        } catch (Exception e) {
+        } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot display current balance");
         }
     }

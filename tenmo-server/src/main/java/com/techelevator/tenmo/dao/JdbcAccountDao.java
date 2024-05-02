@@ -29,10 +29,6 @@ public class JdbcAccountDao implements AccountDao{
             return balance;
         } catch (CannotGetJdbcConnectionException e){
             throw new DaoException("Unable to connect to server or database", e);
-        } catch (BadSqlGrammarException e) {
-            throw new DaoException("SQL syntax error", e);
-        } catch (NullPointerException e){
-            throw new NullPointerException();
         }
     }
 

@@ -77,6 +77,17 @@ public class AccountService {
         return Arrays.asList(transactionHistory);
     }
 
+    public String getNameFromAccountId(int id, AuthenticatedUser currentUser) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(currentUser.getToken());
+
+        HttpEntity<Transfer> entity = new HttpEntity<>(headers);
+        ResponseEntity<User> response = restTemplate.exchange(URL + "/accounts/" + id + "/user", HttpMethod.GET, entity, User.class);
+        User user = response.getBody();
+        return user.getUsername();
+    }
+
 
 
 }

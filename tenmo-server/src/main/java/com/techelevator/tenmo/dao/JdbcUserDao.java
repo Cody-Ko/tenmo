@@ -1,8 +1,10 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -94,6 +96,19 @@ public class JdbcUserDao implements UserDao {
         }
 
         return true;
+    }
+
+    public User getUserByAccountId(int id) throws DaoException {
+        String sql = "SELECT tenmo_user.user_id, username, password_hash FROM account JOIN tenmo_user ON account.user_id = tenmo_user.user_id WHERE account_id = ?";
+        try {
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, id);
+            if (rowSet.next()) {
+                return mapRowToUser(rowSet);
+            }
+            return null;
+        } catch (CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database", e);
+        }
     }
 
     private User mapRowToUser(SqlRowSet rs) {

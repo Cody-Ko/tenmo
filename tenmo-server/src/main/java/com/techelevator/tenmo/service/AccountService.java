@@ -73,5 +73,8 @@ public class AccountService {
         return accountDao.seeTransfers(currentUserId);
     }
 
+    public User getUserByAccountId(int id) throws DaoException{
+        return userDao.getUserByAccountId(id);
+    }
 
 }

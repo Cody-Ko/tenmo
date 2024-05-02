@@ -109,9 +109,10 @@ public class App {
             } else {
                 type = "to";
             }
+            String name = accountService.getNameFromAccountId(transferHistory.get(i).getAccountTo(), currentUser);
             // Use the account id to route back to the database and pull the name for that account.
 
-            System.out.println(transferHistory.get(i).getTransferId() + " " + type + " " + transferHistory.get(i).getAccountFrom() + " $" + transferHistory.get(i).getAmount());
+            System.out.println(transferHistory.get(i).getTransferId() + " " + type + " " + name + " $" + transferHistory.get(i).getAmount());
         }
 		
 	}

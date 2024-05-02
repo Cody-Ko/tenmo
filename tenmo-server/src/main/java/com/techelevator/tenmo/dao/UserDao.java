@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.User;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface UserDao {
     int findIdByUsername(String username);
 
     boolean create(String username, String password);
+    User getUserByAccountId(int id) throws DaoException;
 }

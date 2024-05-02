@@ -2,6 +2,7 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.TransferDto;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 public class AccountController {
@@ -37,4 +39,10 @@ public class AccountController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot make transfer");
         }
     }
+
+    @GetMapping(path = "/users")
+    public List<User> listUsers() {
+        return accountService.userList();
+    }
+
 }

@@ -1,12 +1,14 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class App {
 
@@ -107,8 +109,13 @@ public class App {
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
-        BigDecimal amountToSend = consoleService.promptForBigDecimal("How much money do you wanna send?");
+		List<User> userList = accountService.viewUsers(currentUser);
+        for (int i = 0; i < userList.size(); i++){
+            System.out.println(userList.get(i).getId() + "  " + userList.get(i).getUsername());
+        }
+        int receivingUserId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel): ");
+        BigDecimal amountToSend = consoleService.promptForBigDecimal("How much money do you wanna send? ");
+        accountService.transferBucks(currentUser, receivingUserId, amountToSend);
 	}
 
 	private void requestBucks() {

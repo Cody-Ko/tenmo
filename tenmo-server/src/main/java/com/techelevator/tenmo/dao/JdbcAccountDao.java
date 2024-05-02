@@ -32,26 +32,45 @@ public class JdbcAccountDao implements AccountDao{
         }
     }
 
-    @Transactional
-    public void makeTransfer (int SendingUserId, int ReceivingUserId, double amountToSend){
+    public Account getAccountByUser(int currentUserId) throws DaoException {
+        String sql = "SELECT * FROM account WHERE user_id = ?";
+        try {
+            // if statement to avoid null pointer exception?
+            // switch from double to BigDecimal
+            SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, currentUserId);
+            if (rs.next()){
+                return mapAccount(rs);
+            } else {
+                return null;
+            }
+        } catch (CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+    }
 
-        String pullMoneySql = "UPDATE account SET balance = ? WHERE user_id = ?;";
+    // any feedback to user? i.e confirmation.
+    public void makeTransfer (int userId, double balance) throws DaoException {
 
-        String placeMoneySql = "UPDATE account SET balance = ? WHERE user_id = ?;";
+        String sql = "UPDATE account SET balance = ? WHERE user_id = ?;";
 
         try {
-            double sendingUserBalance = viewBalance(SendingUserId);
-            double receivingUserBalance = viewBalance(ReceivingUserId);
-
-            sendingUserBalance = sendingUserBalance - amountToSend;
-            receivingUserBalance = receivingUserBalance + amountToSend;
-
-            int numberOfRows = jdbcTemplate.update(pullMoneySql, sendingUserBalance, SendingUserId);
-            int numberOfRows2 = jdbcTemplate.update(placeMoneySql, receivingUserBalance, ReceivingUserId);
-
+            int numberOfRows = jdbcTemplate.update(sql, balance, userId);
 
         } catch (Exception e){
-            e.getMessage();
+            throw new DaoException("Unable to make transfer", e);
+        }
+    }
+
+
+
+    public void insertTransferTable (int senderId, int receiverId, double amount) throws DaoException{
+        String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount ) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            jdbcTemplate.update(sql, 2, 2, senderId, receiverId, amount);
+
+        } catch (Exception e){
+            throw new DaoException("Unable to log transfer", e);
         }
     }
 

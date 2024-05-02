@@ -1,9 +1,12 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.exception.DaoException;
+import com.techelevator.tenmo.model.TransferDto;
 import com.techelevator.tenmo.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,6 +26,15 @@ public class AccountController {
             return accountService.viewBalance();
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot display current balance");
+        }
+    }
+
+    @PostMapping (path = "/transfer")
+    public void makeTransfer(@RequestBody TransferDto transferDto){
+        try{
+            accountService.makeTransfer(transferDto.getSenderId(), transferDto.getReceiverId(), transferDto.getAmount());
+        } catch (DaoException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot make transfer");
         }
     }
 }

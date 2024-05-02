@@ -109,7 +109,6 @@ public class App {
 	private void sendBucks() {
 		// TODO Auto-generated method stub
         BigDecimal amountToSend = consoleService.promptForBigDecimal("How much money do you wanna send?");
-
 	}
 
 	private void requestBucks() {

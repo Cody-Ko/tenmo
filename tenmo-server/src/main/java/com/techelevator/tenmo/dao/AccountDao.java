@@ -2,6 +2,9 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
+
+import java.util.List;
 
 public interface AccountDao {
 
@@ -12,4 +15,6 @@ public interface AccountDao {
     public Account getAccountByUser (int currentUserId) throws DaoException;
 
     public void insertTransferTable (int senderId, int receiverId, double amount) throws DaoException;
+
+    public List<Transfer> seeTransfers (int userId) throws DaoException;
 }

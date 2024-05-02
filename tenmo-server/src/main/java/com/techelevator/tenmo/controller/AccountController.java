@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.exception.DaoException;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferDto;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.service.AccountService;
@@ -47,5 +48,15 @@ public class AccountController {
     public List<User> listUsers() {
         return accountService.userList();
     }
+
+    @GetMapping (path = "/seetransfers")
+    public List <Transfer> seeTransfers (Principal user){
+       try{
+           return accountService.seeTransfers(user);
+       } catch (DaoException e){
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot view transfers");
+       }
+    }
+
 
 }

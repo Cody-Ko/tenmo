@@ -2,12 +2,16 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.exception.DaoException;
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.rowmapper.TransferRowMapper;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 public class JdbcAccountDao implements AccountDao{
@@ -72,6 +76,21 @@ public class JdbcAccountDao implements AccountDao{
         } catch (Exception e){
             throw new DaoException("Unable to log transfer", e);
         }
+    }
+
+    public List <Transfer> seeTransfers(int currentUserId) throws DaoException {
+
+        String sql = "SELECT * FROM transfer JOIN account ON account_id = account_from WHERE user_id = ?";
+
+        try{
+            List<Transfer> transferList = jdbcTemplate.query(sql, new TransferRowMapper(), currentUserId);
+            return transferList;
+        } catch (Exception e){
+            throw new DaoException("Unable to log transfer", e);
+        }
+
+
+
     }
 
 

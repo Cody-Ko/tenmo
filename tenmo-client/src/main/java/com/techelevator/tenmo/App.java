@@ -114,11 +114,36 @@ public class App {
             }else {
                 toOrFrom = "From";
             }
-
             System.out.println(transferHistory.get(i).getTransferId() + " " + toOrFrom + " " + name + " $" + transferHistory.get(i).getAmount());
+
         }
-		
+
+        int selectedId = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
+        Transfer selectedTransfer = getTransferInfo(transferHistory, selectedId);
+        if (selectedTransfer != null){
+            displayTransfer(selectedTransfer);
+        } else {
+            System.out.println("This is null");
+        }
 	}
+    private Transfer getTransferInfo (List <Transfer> transferHistory, int selectedId){
+
+            for (int i = 0; i < transferHistory.size(); i++){
+                if (transferHistory.get(i).getTransferId() == selectedId){
+                    return transferHistory.get(i);
+                }
+
+        } return null;
+    }
+
+    private void displayTransfer(Transfer selectedTransfer){
+        String name = accountService.getNameFromAccountId(selectedTransfer.getAccountFrom(), currentUser);
+        String name2 = accountService.getNameFromAccountId(selectedTransfer.getAccountTo(), currentUser);
+
+        System.out.println("Id: " + selectedTransfer.getTransferId() + "\n"
+                + "From: " + name + "\n" + "To: " + name2 + "\n" + "Type: Send" + "\n" + "Status: Approved" + "\n" + "Amount: $" + selectedTransfer.getAmount());
+    }
+
 
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub

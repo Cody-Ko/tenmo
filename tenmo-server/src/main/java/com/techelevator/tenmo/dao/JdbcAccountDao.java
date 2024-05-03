@@ -80,7 +80,7 @@ public class JdbcAccountDao implements AccountDao{
 
     public List <Transfer> seeTransfers(int currentUserId) throws DaoException {
 
-        String sql = "SELECT * FROM transfer JOIN account ON account_id = account_from WHERE user_id = ?";
+        String sql = "SELECT * FROM transfer JOIN account ON account_id = account_from OR account_id = account_to WHERE user_id = ?";
 
         try{
             List<Transfer> transferList = jdbcTemplate.query(sql, new TransferRowMapper(), currentUserId);

@@ -104,15 +104,18 @@ public class App {
         List <Transfer> transferHistory = accountService.transferHistory(currentUser);
         String type = "";
         for (int i = 0; i < transferHistory.size(); i++){
-            if (transferHistory.get(i).getTransferTypeId() == 1){
-                type = "From";
-            } else {
-                type = "to";
-            }
+            String toOrFrom = "";
             String name = accountService.getNameFromAccountId(transferHistory.get(i).getAccountTo(), currentUser);
             // Use the account id to route back to the database and pull the name for that account.
 
-            System.out.println(transferHistory.get(i).getTransferId() + " " + type + " " + name + " $" + transferHistory.get(i).getAmount());
+            User fromUser = accountService.getUserFromAccountId( transferHistory.get(i).getAccountFrom(), currentUser);
+            if(fromUser.getId() == currentUser.getUser().getId()){
+                toOrFrom = "To";
+            }else {
+                toOrFrom = "From";
+            }
+
+            System.out.println(transferHistory.get(i).getTransferId() + " " + toOrFrom + " " + name + " $" + transferHistory.get(i).getAmount());
         }
 		
 	}

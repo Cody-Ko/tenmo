@@ -1,0 +1,3 @@
+com/techelevator/dao/BaseDaoTests.class
+com/techelevator/dao/JdbcUserDaoTests.class
+com/techelevator/dao/TestingDatabaseConfig.class

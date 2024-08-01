@@ -52,7 +52,7 @@ public class JdbcAccountDao implements AccountDao{
         }
     }
 
-    // any feedback to user? i.e confirmation.
+    // any feedback to user? i.e. confirmation.
     public void makeTransfer (int userId, double balance) throws DaoException {
 
         String sql = "UPDATE account SET balance = ? WHERE user_id = ?;";
